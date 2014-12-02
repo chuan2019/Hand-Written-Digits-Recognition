@@ -28,7 +28,7 @@ class digit_recognizer:
 ##______________________________________________________________________________
     def __init__(self, file_name):
         """
-        Function  :  __init__(self, file_name)
+        method    :  __init__(self, file_name)
         Purpose   :  This is the constructor of the class digit_recognizer. In
                      this constructor, the raw data will be loaded, and splitted
                      into a training data set and a testing data set for
@@ -65,7 +65,7 @@ class digit_recognizer:
 ##____________________________________________________________________________##
     def __load_data__(self, file_name, skip_head=True, train=True):
         """
-        Purpose: This function opens a .csv (comma separated values) file, and
+        Purpose: This method opens a .csv (comma separated values) file, and
                  loads the hand-written digit data into the memory.
         Input  : file_name: str, the path and name of the .csv file
                  skip_head: boolean, if True, then skip the first line of the
@@ -117,7 +117,7 @@ class digit_recognizer:
 ##____________________________________________________________________________##
     def create_data_partition(self, data, in_train=0.6, seed=5425):
         """
-        Function  :  create_data_partition(data, times=1, in_train=0.6)
+        Method    :  create_data_partition(data, times=1, in_train=0.6)
         Purpose   :  Create partition(s) of the given dataset for training and
                      testing
         Input     :  data  : non-empty dataset (list, array, numpy array, or
@@ -151,30 +151,30 @@ class digit_recognizer:
     def vectorizer2(func):
         """
         Function  :  vectorizer2(func)
-        Purpose   :  This function is used to wrap some other functions which
+        Purpose   :  This function is used to wrap the method 'logfit' which
                      take numpy 1d or 2d array X and 1d array y as input. As
-                     some other functions output list of arrays, and then we
-                     need to feed them to the functions mentioned above as input
-                     we might not convert them into ndarrays. So this decorator
+                     some other methods output list of arrays, and then we need
+                     to feed them to the method mentioned above as the input, we
+                     might not convert them into ndarrays. So this decorator
                      is used to check if the input positional variables are
                      numpy arrays or not, if not then the checker function will
                      convert them into numpy arrays.
-        Input     :  func, a function taking two numpy arrays (and other
+        Input     :  func, the method taking two numpy arrays (and other
                      variables/parameters) as input
         Output    :  checker
         """
-        def checker(X, y, **kwargs):
+        def checker(self, X, y, C=1e5, tol=1e-1):
             import numpy as np
             X = np.array(X)
             y = np.array(y)
-            ret = func(X, y, **kwargs)
+            ret = func(self, X, y, C=1e5, tol=1e-1)
             return ret
         return checker
 ##____________________________________________________________________________##
     @vectorizer2
     def logfit(self, X, y, C=1e5, tol=1e-1):
         """
-        Function  :  logfit(X, y, C=1e5, tol=1e-1)
+        Method    :  logfit(X, y, C=1e5, tol=1e-1)
         Input     :  X: array of the shape [n_samples, nrow*ncol], it contains
                         features of every sample.
                      y: array of the shape [n_samples], it contains targets
@@ -201,29 +201,29 @@ class digit_recognizer:
     def vectorizer1(func):
         """
         Function  :  vectorizer1(self, func)
-        Purpose   :  This function is used to wrap some other functions which
-                     take numpy 1d or 2d array X as input. As some other
-                     functions output list of arrays, and then we need to feed
-                     them to the functions mentioned above as input we might not
+        Purpose   :  This function is used to wrap the method 'make_pred' which
+                     takes numpy 1d or 2d array X as input. As some other
+                     methods output list of arrays, and then we need to feed
+                     them to the method mentioned above as input we might not
                      convert them into ndarrays. So this decorator is used to
                      check if the input positional variables are numpy arrays or
                      not, if not then the checker function will convert them
                      into numpy arrays.
-        Input     :  func, a function taking one numpy arrays (and other
+        Input     :  func, the method taking one numpy arrays (and other
                      variables/parameters) as input
         Output    :  checker
         """
-        def checker(self, X, **kwargs):
+        def checker(self, X, model):
             import numpy as np
             X = np.array(X)
-            ret = func(self, X, **kwargs)
+            ret = func(self, X, model)
             return ret
         return checker
 ##____________________________________________________________________________##
     @vectorizer1
     def make_pred(self, X, model):
         """
-        Function  :  make_pred(X, model)
+        Method    :  make_pred(X, model)
         Input     :  X: array of the shape [n_samples, nrow*ncol], it contains
                         all the features of every sample from the testing set
                      model: estimator object, it must be fitted/trained,
@@ -255,7 +255,7 @@ class digit_recognizer:
 ##____________________________________________________________________________##
     def __debinarize__(self, binarized_array):
         """
-        Function  :  __debinarize__(self, binarized_array)
+        Method    :  __debinarize__(self, binarized_array)
         Input     :  binarized_array: array of the shape [n_samples, n_classes]
                                       it contains the targets/predictions of an
                                       multi-class prediction problem. Each row
@@ -276,7 +276,7 @@ class digit_recognizer:
 ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++##
     def roc_and_auc(self, pred_prob, pred_key):
         """
-        Function  :  roc_and_auc(self, pred_prob, pred_key)
+        Method    :  roc_and_auc(self, pred_prob, pred_key)
         Input     :  pred_prob: array of shape [n_samples, n_classes], contains
                                 the probability scores for each sample. E.g. the
                                 probability scores for the k-th sample is
@@ -332,7 +332,7 @@ class digit_recognizer:
 ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++##
     def output_pred(self, y, ofile):
         """
-        Function  :  output_pred(self, y, ofile)
+        Method    :  output_pred(self, y, ofile)
         Input     :  y: array of the shape [n_samples], contains the recoganized
                         digits
                      ofile: str, contains both the path and name of the .csv
