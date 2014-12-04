@@ -17,7 +17,7 @@ import csv
 import numpy as np
 import math
 
-class digit_recognizer:
+class digit_recognizer(object):
     """
     digit_recognizer: This is my solution to the Kaggle data-science competition
       Digit Recognizer: https://www.kaggle.com/c/digit-recognizer
@@ -29,8 +29,8 @@ class digit_recognizer:
     def __init__(self, file_name):
         """
         method    :  __init__(self, file_name)
-        Purpose   :  This is the constructor of the class digit_recognizer. In
-                     this constructor, the raw data will be loaded, and splitted
+        Purpose   :  This is the initializer of the class digit_recognizer. In
+                     this initializer, the raw data will be loaded, and splitted
                      into a training data set and a testing data set for
                      training and evaluating the performance of the model.
         Input     :  file_name, str: a string containing the path and name of
